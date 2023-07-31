@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
         ref: 'Course', // Reference to the course model
         required: true,
       },
+      title: {
+        type: String,
+        required: true,
+      },
       finished: {
         type: Boolean,
         default: false,
@@ -33,6 +37,7 @@ const UserSchema = new mongoose.Schema({
       },
       timeTaken:{
         type: Number,
+        default: 0,
       }
     },
   ],
@@ -49,7 +54,7 @@ const UserSchema = new mongoose.Schema({
         ref: 'Quiz', // Reference to the quiz model
         required: true,
       },
-      averageScore: {
+      score: {
         type: Number,
         required: true,
       },
