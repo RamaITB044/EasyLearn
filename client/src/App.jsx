@@ -1,11 +1,11 @@
 import './App.scss'
 import { BrowserRouter as Router } from 'react-router-dom';
 import AnimatedRoutes from './components/AnimatedRoutes'
-import magic from './services/magic';
+import magic from './utils/magic';
 import useAuthStore from './store/useAuthStore';
 import useUserStore from './store/useUserStore';
 import { useEffect } from 'react';
-import { checkAuth } from './services/checkAuth';
+import { checkAuth } from './utils/checkAuth';
 
 function App() {
   const setAuth = useAuthStore(state => state.setAuth);

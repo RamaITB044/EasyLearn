@@ -26,8 +26,7 @@ async function textBard(prompt) {
             if(result[0]?.candidates[0]?.output === undefined) {
                 reject("No output");
             }
-            // resolve(result[0]?.candidates[0]?.output);
-            resolve(result[0]?.candidates[0]);
+            resolve(result[0]?.candidates[0]?.output);
         } catch (error) {
             console.log(error);
             reject(error);

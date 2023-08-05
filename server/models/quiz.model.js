@@ -5,7 +5,24 @@ const QuizSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  questions: [],
+  questions: [
+    {
+      question: {
+        type: String,
+        required: true,
+      },
+      options: [
+        {
+          type: String,
+          required: true,
+        },
+      ],
+      correctOption: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 const Quiz = mongoose.model('Quiz', QuizSchema);
