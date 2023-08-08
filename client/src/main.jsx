@@ -1,10 +1,31 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.scss'
+import React, { useEffect } from 'react'
+import "./Main.scss";
+import { Outlet, useNavigate } from 'react-router-dom'
+import Sidebar from '../../components/sidebar/Sidebar';
+import Axios from 'axios';
+import useAuthStore from '../../store/useAuthStore';
+import useUserStore from '../../store/useUserStore';
+import { checkAuth } from '../../services/checkAuth';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+const Main = () => {
+    const navigate = useNavigate();
+    const auth = useAuthStore(state => state.auth);
+    const setAuth = useAuthStore(state => state.setAuth);
+    const setUser = useUserStore(state => state.setUser);
+    const logout = useAuthStore(state => state.logout);
+  
+    useEffect(() => {
+      !auth && checkAuth(setAuth, setUser, logout);
+    }, []);
+
+    if(!auth) return <h1>Loading...</h1>
+
+    return (
+        <div className='Main'>
+            <Sidebar />
+            <Outlet />
+        </div>
+    )
+}
+
+export default Main
