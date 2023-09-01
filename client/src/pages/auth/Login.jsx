@@ -14,11 +14,12 @@ import useAuthStore from '../../store/useAuthStore';
 import useUserStore from '../../store/useUserStore';
 
 import googleIcon from "../../assets/icons/google.svg";
-import loginimg from "../../assets/images/loginimage.png";
 import magic from '../../services/magic';
 import isLogged from '../../services/logged';
 import appLogo from '../../assets/icons/logo.svg'
 import toast, { Toaster } from 'react-hot-toast';
+import { motion } from 'framer-motion';
+import { Spinner } from "@material-tailwind/react";
 
 
 const APP_SERVER = import.meta.env.VITE_APP_SERVER;
@@ -116,11 +117,15 @@ const Login = () => {
     }
 
     return (
-        <section>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+        >
             <Toaster />
             <div className='auth-con '>
                 <div className='left-con'>
-                    <img src={appLogo} alt="logo" className='w-24 lg:w-30 self-start' />
+                    <img src={appLogo} alt="logo" className='w-24 lg:w-30 self-start cursor-pointer' onClick={() => navigate("/")} />
                     <Card color="transparent" shadow={false} >
 
                         <Typography variant="h4" color="blue-gray" >
@@ -134,8 +139,8 @@ const Login = () => {
 
                                 <Input size="lg" label="Email" onChange={(e) => handleInput(e)} error={inputError} />
                             </div>
-                            <Button className="mt-6 " fullWidth onClick={handleLogin}>
-                                Log in
+                            <Button className="mt-6 bg-cblack hover:shadow-sd flex justify-center" fullWidth onClick={handleLogin} disabled={loading}>
+                                {loading ? <Spinner color="white" className="h-4 w-4" /> : "Login"}
                             </Button>
                             <Typography color="gray" className="mt-4 text-center font-normal">
                                 New to Lern?{" "}
@@ -150,14 +155,14 @@ const Login = () => {
                         </form>
                     </Card>
                     <p className='text-center text-gray-500 text-xs'>
-                        &copy;2023 Lern. All rights reserved.
+                        &copy;2023 Lern
                     </p>
                 </div>
                 <div className='right-con'>
-                    <img src={loginimg} alt="image" />
+                    {/* <img src={loginimg} alt="image" /> */}
                 </div>
             </div>
-        </section>
+        </motion.div>
     )
 }
 
