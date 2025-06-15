@@ -1,5 +1,4 @@
-const { Magic } = require('@magic-sdk/admin');
-const magic = new Magic(process.env.MAGIC_SECRET_KEY);
+import magic from "../utils/magic.cjs";
 
 const authMiddleware = async (req, res, next) => {
     try {
@@ -11,6 +10,6 @@ const authMiddleware = async (req, res, next) => {
     } catch (error) {
         return res.status(401).json({ error: error.message });
     }
-}
+};
 
-module.exports = authMiddleware;
+export default authMiddleware;

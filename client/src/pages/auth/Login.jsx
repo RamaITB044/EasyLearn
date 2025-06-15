@@ -78,12 +78,8 @@ const Login = () => {
             try {
                 //checking if user exists
                 const checkResp = await Axios.post(APP_SERVER + "/api/auth/check", { email: email });
-                if (!checkResp.data.status) {
-                    toast("Please register first!",
-                        {
-                            icon: '⚠️'
-                        });
-
+                if (!await checkResp.data.status) {
+                    toast("Please register first!", {icon: '⚠️'});
                     setLoading(false);
                     return navigate("/register");
                 }
@@ -99,11 +95,10 @@ const Login = () => {
                     });
                     setUser(loginResp.data.user);
                     setAuth(loginResp.data.metadata);
-                    // Cookies.set('token', didToken);
-                    setLoading(false);
-                    navigate("/app");
                     const newToken = await magic.user.getIdToken({ lifespan: 7 * 24 * 60 * 60 });
                     Cookies.set('token', newToken);
+                    setLoading(false);
+                    navigate("/app");
                 } catch (err) {
                     toast.error("Login attempt failed. Please try again later!");
                     setLoading(false);
@@ -144,7 +139,7 @@ const Login = () => {
                                 {loading ? <Spinner color="white" className="h-4 w-4" /> : "Login"}
                             </Button>
                             <Typography color="gray" className="mt-4 text-center font-normal">
-                                New to Lern?{" "}
+                                New to EasyLearn?{" "}
                                 <a
                                     href="#"
                                     className="font-medium text-blue-500 transition-colors hover:text-blue-700"
@@ -156,7 +151,7 @@ const Login = () => {
                         </form>
                     </Card>
                     <p className='text-center text-gray-500 text-xs'>
-                        &copy;2023 Lern
+                        &copy;2023 EasyLearn
                     </p>
                 </div>
                 <div className='right-con'>

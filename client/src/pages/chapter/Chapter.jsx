@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import useCourseStore from '../../store/useCourseStore';
 import useQuizStore from '../../store/useQuizStore';
-import { Breadcrumbs, Button, Card } from '@material-tailwind/react';
+import { Breadcrumbs, Button, Card, Typography } from '@material-tailwind/react';
 import ReactMarkdown from 'react-markdown';
 import Axios from 'axios';
 import "./Chapter.scss"
@@ -35,7 +35,7 @@ const Chapter = () => {
             return
         }
         try {
-            const courseResp = await Axios.get(APP_SERVER + `/api/user/course/${courseId}`, {
+            const courseResp = await Axios.get(APP_SERVER + `/api/course/${courseId}`, {
                 headers: {
                     Authorization: "Bearer " + Cookies.get('token')
                 }
@@ -73,7 +73,7 @@ const Chapter = () => {
 
         try {
             setLoading(true)
-            const quizResp = await Axios.post(APP_SERVER + "/api/user/generateQuiz", { courseId, chapterId, topic }, {
+            const quizResp = await Axios.post(APP_SERVER + "/api/quiz/generate", { courseId, chapterId, topic }, {
                 headers: {
                     Authorization: "Bearer " + Cookies.get('token')
                 }
@@ -92,7 +92,7 @@ const Chapter = () => {
 
     const handleChaterCompletion = async (chapterId) => {
         try {
-            const completionResp = await Axios.post(APP_SERVER + `/api/user/chapter/complete`, { courseId: course._id, chapterId }, {
+            const completionResp = await Axios.post(APP_SERVER + `/api/course/chapter/complete`, { courseId: course._id, chapterId }, {
                 headers: {
                     Authorization: "Bearer " + Cookies.get('token')
                 }
@@ -110,17 +110,17 @@ const Chapter = () => {
             <div className='w-full max-w-screen-xl h-full'>
                 <div className='flex justify-between'>
                     <h1 className='text-xl md:text-3xl lg:text-5xl text-black'>{chapter?.title}</h1>
-                    <Button onClick={generateQuiz} disabled={loading}>{loading ? <Spinner /> : "Quiz"}</Button>
+                    <Button className="bg-cteal" onClick={generateQuiz} disabled={loading}>{loading ? <Spinner /> : "Quiz"}</Button>
                 </div>
                 <Breadcrumbs className='px-0 bg-color-white my-2'>
-                    <p className='cursor-pointer opacity-60' onClick={() => navigate(`/app/course/${course._id}`)}>{course?.title}</p>
-                    <p className='cursor-pointer font-bold' >{chapter?.title}</p>
+                    <Typography color="black" className='cursor-pointer opacity-60' variant="p" onClick={() => navigate(`/app/course/${course._id}`)}>{course?.title}</Typography>
+                    <Typography color="blue" variant="p">{chapter?.title}</Typography>
                 </Breadcrumbs>
                 <div className='pt-4 pb-8'>
                     <ReactMarkdown className="line-break">{chapter?.content}</ReactMarkdown>
                 </div>
                 <div className='w-full py-4 flex gap-2 justify-between'>
-                    {findPrevChapterId() ? <Button color='gray' onClick={() => navigate(`/app/course/${course._id}/chapter/${findPrevChapterId()}`)}>Previous chapter</Button> : "_"}
+                    {findPrevChapterId() ? <Button color='gray' onClick={() => navigate(`/app/course/${course._id}/chapter/${findPrevChapterId()}`)}>Back</Button> : "_"}
                     <div>
                         <Button variant={chapter?.completed ? "filled" : "outlined"} onClick={() => handleChaterCompletion(chapter._id)} className='box-border'>{chapter?.completed ? "Completed" : "Mark as complete"}</Button>
                         {findNextChapterId() ? <Button color='gray' className="ml-2"onClick={() => navigate(`/app/course/${course._id}/chapter/${findNextChapterId()}`)}>Next chapter</Button> : null}

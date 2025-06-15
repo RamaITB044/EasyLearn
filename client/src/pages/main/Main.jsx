@@ -28,7 +28,7 @@ const Main = () => {
         <div className={`w-full relative ${isMobile ? 'block' : 'flex max-h-screen sm:p-4'} gap-4 bg-gray-100 box-border`}>
             <Sidebar />
             <div className={`w-full z-10 h-16 bg-gray-100 ${isMobile ? 'sticky top-0' : 'hidden'} flex items-center justify-center`}>
-                <img src={app_logo} alt="Lern" className='app-logo cursor-pointer' onClick={() => navigate("/")} />
+                <img src={app_logo} alt="EasyLearn" className='app-logo cursor-pointer' onClick={() => navigate("/")} />
             </div>
             <Outlet />
         </div>

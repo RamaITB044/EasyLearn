@@ -59,10 +59,7 @@ const Register = () => {
         try {
             const checkResp = await Axios.post(APP_SERVER + '/api/auth/check', { email });
             if (checkResp.data.status) {
-                toast("User already exists",
-            {
-                icon: '⚠️'
-            });
+                toast("User already exists",{icon: '⚠️'});
                 setLoading(false);
                 return;
             }
@@ -120,7 +117,7 @@ const Register = () => {
                         </form>
                     </Card>
                     <p className='text-center text-gray-500 text-xs'>
-                        &copy;2023 Lern
+                        &copy;2023 EasyLearn
                     </p>
                 </div>
                 <div className='right-con'>

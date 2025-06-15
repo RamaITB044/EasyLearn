@@ -1,4 +1,4 @@
-const rateLimit = require('express-rate-limit');
+import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 60 minutes
@@ -7,4 +7,4 @@ const limiter = rateLimit({
   legacyHeaders: false // Disable the `X-RateLimit-*` headers
 });
 
-module.exports = limiter;
+export default limiter;

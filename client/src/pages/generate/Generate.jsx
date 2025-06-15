@@ -4,10 +4,10 @@ import useAuthStore from '../../store/useAuthStore';
 import useUserStore from '../../store/useUserStore';
 import Axios from 'axios';
 import Cookies from 'js-cookie';
-import ReactMarkdown from 'react-markdown'
 import { Button, Card, Input, Chip, List, ListItem, ListItemSuffix, IconButton, } from '@material-tailwind/react';
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { suggestions } from './suggestions';
+import { facts } from './randomFacts';
 import ChapterList from '../../components/chapterList/ChapterList';
 import useCourseStore from '../../store/useCourseStore';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
@@ -28,19 +28,23 @@ const Generate = () => {
     const setCourse = useCourseStore(state => state.setCourse);
     const addCourse = useUserStore(state => state.addCourse);
     const course = useCourseStore(state => state.course);
+    const [factIndex, setFactIndex] = useState(0);
 
     const handleTopicGeneration = async (e) => {
         e.preventDefault();
-        if (!topicName.length < 3) {
+        if (topicName.length < 3) {
             toast("Please enter a valid topic name!", {
                 icon: '⚠️'
             });
             return;
         }
         console.log("Generating topic...");
+        const factsInterval = setInterval(() => {
+            setFactIndex((prevIndex) => (prevIndex + 1) % facts.length);
+        }, 6000);
         try {
             setIsGenerating(true);
-            const genResp = await Axios.post(APP_SERVER + "/api/user/generateCourse", { topic: topicName }, {
+            const genResp = await Axios.post(APP_SERVER + "/api/course/generate", { topic: topicName }, {
                 headers: {
                     Authorization: "Bearer " + Cookies.get('token')
                 }
@@ -49,6 +53,7 @@ const Generate = () => {
             addCourse(genResp.data.courseMetadata);
             setShowCourse(true);
             setIsGenerating(false);
+            clearInterval(factsInterval);
             navigate("/app/course/"+genResp.data.newCourse._id);
             console.log(genResp.data.newCourse);
         } catch (error) {
@@ -71,7 +76,8 @@ const Generate = () => {
                         <p className="text-md md:text-1xl lg:text-2xl mt-2">What do you want to learn today?</p>
                     }
                     {isGenerating ? <div className="flex-1 flex flex-col justify-center items-center mt-10 md:mt-0">
-                        <Player autoplay loop src={hourglass} style={{ height: '100%', width: '100%' }} />
+                        <Player autoplay loop src={hourglass} className='md:w-[80%] lg:w-[90%]' />
+                        <p className=' text-center'>{facts[factIndex]}</p>
                     </div> : showCourse ?
                         <ChapterList course={course} />
                         :
@@ -83,7 +89,7 @@ const Generate = () => {
                                         <Input size="lg" label="Enter a topic" className='lg:h-20 md:text-xl lg:rounded-r-none' color="blue" onChange={(e) => setTopicName(e.target.value)} value={topicName} />
                                 </div>
                                 <div className="w-full lg:w-1/4">
-                                    <Button fullWidth className='lg:h-20 lg:rounded-l-none lg:text-sm lg:p-0 flex justify-center items-center' type='submit'>
+                                    <Button fullWidth className='lg:h-20  lg:rounded-l-none lg:text-sm lg:p-0 flex justify-center items-center' type='submit'>
                                         Generate
                                     </Button>
                                 </div>
