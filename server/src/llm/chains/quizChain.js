@@ -1,10 +1,10 @@
 import { LLMChain } from "langchain/chains";
-import { groqModel } from "../models/palm.js";
+import { geminiModel } from "../models/palm.js";
 import { quizPrompt } from "../templates/quizTemplate.js";
 import { jsonParser, formatResponse } from "../utils/jsonParser.js";
 
 /**
- * Generate a quiz for a chapter using the Groq model.
+ * Generate a quiz for a chapter using the Gemini model.
  *
  * @param {string} chapter - The chapter for which to generate a quiz.
  * @returns {Promise<string>} A Promise that resolves to the model-generated quiz string.
@@ -12,7 +12,7 @@ import { jsonParser, formatResponse } from "../utils/jsonParser.js";
  */
 
 export const generateQuiz = async (chapter) => {
-  const model = groqModel(0.8);
+  const model = geminiModel(0.8);
   const chain = new LLMChain({
     llm: model,
     prompt: quizPrompt,

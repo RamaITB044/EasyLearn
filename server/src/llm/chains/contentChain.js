@@ -1,9 +1,9 @@
 import { LLMChain } from "langchain/chains";
-import { groqModel } from "../models/palm.js";
+import { geminiModel } from "../models/palm.js";
 import { contentPrompt } from "../templates/contentTemplate.js";
 
 /**
- * Generate the content for a chapter using the Groq model.
+ * Generate the content for a chapter using the Gemini model.
  *
  * @param {string} chapter - The chapter for which to generate content.
  * @returns {Promise<string>} A Promise that resolves to the model-generated content string.
@@ -11,7 +11,7 @@ import { contentPrompt } from "../templates/contentTemplate.js";
  */
 
 export const generateContent = async (chapter) => {
-  const model = groqModel(0.8);
+  const model = geminiModel(0.8);
   const chain = new LLMChain({
     llm: model,
     prompt: contentPrompt,
